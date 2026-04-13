@@ -15,7 +15,6 @@ const ui = {
 };
 
 function init() {
-  // Tạo các nút giảm giá động
   discounts.forEach((percent) => {
     const btn = document.createElement('button');
     btn.className = `btn-discount ${percent === state.discount ? 'active' : ''}`;
@@ -24,7 +23,6 @@ function init() {
     ui.discountGroup.appendChild(btn);
   });
 
-  // Lắng nghe tương tác đầu tiên để kích hoạt Audio và WakeLock
   document.body.addEventListener('touchstart', initialInteraction, { once: true });
   document.body.addEventListener('click', initialInteraction, { once: true });
 }
@@ -66,9 +64,24 @@ function playBeep() {
 
 function calculatePrices() {
   if (state.inputStr === '') return { original: 0, discounted: 0, final: 0 };
+
   let original = parseInt(state.inputStr, 10) * 100;
   let discounted = original * (1 - state.discount / 100);
-  return { original, discounted, final: Math.ceil(discounted / 1000) * 1000 };
+
+  let basePrice = Math.floor(discounted / 1000) * 1000;
+  let remainder = discounted % 1000;
+  let finalPrice = basePrice;
+
+  // Logic làm tròn theo quy tắc Bách Hóa Xanh xả thịt cá:
+  if (remainder < 100) {
+    finalPrice = basePrice;
+  } else if (remainder <= 500) {
+    finalPrice = basePrice + 500;
+  } else {
+    finalPrice = basePrice + 1000;
+  }
+
+  return { original, discounted, final: finalPrice };
 }
 
 function updateUI() {
@@ -136,5 +149,4 @@ function resetAutoTimer() {
   }, 1500);
 }
 
-// Khởi chạy ứng dụng
 init();

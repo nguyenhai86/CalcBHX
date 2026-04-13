@@ -1,125 +1,53 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Máy Tính Kho Siêu Tốc</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="status-bar" id="wakeLockStatus">Màn hình: Đang yêu cầu quyền...</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Máy Tính Kho Siêu Tốc</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="status-bar" id="wakeLockStatus">Màn hình: Đang yêu cầu quyền...</div>
 
-    <div class="discount-group" id="discountGroup"></div>
+  <div class="discount-group" id="discountGroup"></div>
 
-    <div class="display-card" id="displayCard">
-      <div class="card-label">Giá ghi tem</div>
-      <div class="price-final" id="finalPriceDisplay">0</div>
-
-      <div class="price-details" id="detailsDisplay">
-        <div class="detail-row">
-          <span>Nhập mã:</span>
-          <strong id="rawInputText">...</strong>
-        </div>
-        <div class="detail-row">
-          <span>Giá gốc:</span>
-          <strong id="originalPriceText">0 đ</strong>
-        </div>
-        <div class="detail-row">
-          <span>Chưa làm tròn:</span>
-          <strong id="unroundedPriceText" style="color: #d63384">0 đ</strong>
-        </div>
+  <div class="display-card" id="displayCard">
+    <div class="card-label">Giá ghi tem</div>
+    <div class="price-final" id="finalPriceDisplay">0</div>
+    
+    <div class="price-details" id="detailsDisplay">
+      <div class="detail-row">
+        <span>Nhập mã:</span>
+        <strong id="rawInputText">...</strong>
+      </div>
+      <div class="detail-row">
+        <span>Giá gốc:</span>
+        <strong id="originalPriceText">0 đ</strong>
+      </div>
+      <div class="detail-row">
+        <span>Chưa làm tròn:</span>
+        <strong id="unroundedPriceText" style="color: #d63384;">0 đ</strong>
       </div>
     </div>
+  </div>
 
-    <div class="history-container" id="historyList"></div>
+  <div class="history-container" id="historyList"></div>
 
-    <div class="numpad">
-      <button
-        class="btn-num"
-        onpointerdown="tapKey(this, '1')"
-        onpointerup="releaseKey(this)"
-        onpointercancel="releaseKey(this)">
-        1
-      </button>
-      <button
-        class="btn-num"
-        onpointerdown="tapKey(this, '2')"
-        onpointerup="releaseKey(this)"
-        onpointercancel="releaseKey(this)">
-        2
-      </button>
-      <button
-        class="btn-num"
-        onpointerdown="tapKey(this, '3')"
-        onpointerup="releaseKey(this)"
-        onpointercancel="releaseKey(this)">
-        3
-      </button>
-      <button
-        class="btn-num"
-        onpointerdown="tapKey(this, '4')"
-        onpointerup="releaseKey(this)"
-        onpointercancel="releaseKey(this)">
-        4
-      </button>
-      <button
-        class="btn-num"
-        onpointerdown="tapKey(this, '5')"
-        onpointerup="releaseKey(this)"
-        onpointercancel="releaseKey(this)">
-        5
-      </button>
-      <button
-        class="btn-num"
-        onpointerdown="tapKey(this, '6')"
-        onpointerup="releaseKey(this)"
-        onpointercancel="releaseKey(this)">
-        6
-      </button>
-      <button
-        class="btn-num"
-        onpointerdown="tapKey(this, '7')"
-        onpointerup="releaseKey(this)"
-        onpointercancel="releaseKey(this)">
-        7
-      </button>
-      <button
-        class="btn-num"
-        onpointerdown="tapKey(this, '8')"
-        onpointerup="releaseKey(this)"
-        onpointercancel="releaseKey(this)">
-        8
-      </button>
-      <button
-        class="btn-num"
-        onpointerdown="tapKey(this, '9')"
-        onpointerup="releaseKey(this)"
-        onpointercancel="releaseKey(this)">
-        9
-      </button>
-      <button
-        class="btn-num btn-action-clear"
-        onpointerdown="tapKey(this, 'C')"
-        onpointerup="releaseKey(this)"
-        onpointercancel="releaseKey(this)">
-        C
-      </button>
-      <button
-        class="btn-num"
-        onpointerdown="tapKey(this, '0')"
-        onpointerup="releaseKey(this)"
-        onpointercancel="releaseKey(this)">
-        0
-      </button>
-      <button
-        class="btn-num btn-action-del"
-        onpointerdown="tapKey(this, 'DEL')"
-        onpointerup="releaseKey(this)"
-        onpointercancel="releaseKey(this)"></button>
-    </div>
+  <div class="numpad">
+    <button class="btn-num" onpointerdown="tapKey(this, '1')" onpointerup="releaseKey(this)" onpointercancel="releaseKey(this)">1</button>
+    <button class="btn-num" onpointerdown="tapKey(this, '2')" onpointerup="releaseKey(this)" onpointercancel="releaseKey(this)">2</button>
+    <button class="btn-num" onpointerdown="tapKey(this, '3')" onpointerup="releaseKey(this)" onpointercancel="releaseKey(this)">3</button>
+    <button class="btn-num" onpointerdown="tapKey(this, '4')" onpointerup="releaseKey(this)" onpointercancel="releaseKey(this)">4</button>
+    <button class="btn-num" onpointerdown="tapKey(this, '5')" onpointerup="releaseKey(this)" onpointercancel="releaseKey(this)">5</button>
+    <button class="btn-num" onpointerdown="tapKey(this, '6')" onpointerup="releaseKey(this)" onpointercancel="releaseKey(this)">6</button>
+    <button class="btn-num" onpointerdown="tapKey(this, '7')" onpointerup="releaseKey(this)" onpointercancel="releaseKey(this)">7</button>
+    <button class="btn-num" onpointerdown="tapKey(this, '8')" onpointerup="releaseKey(this)" onpointercancel="releaseKey(this)">8</button>
+    <button class="btn-num" onpointerdown="tapKey(this, '9')" onpointerup="releaseKey(this)" onpointercancel="releaseKey(this)">9</button>
+    <button class="btn-num btn-action-clear" onpointerdown="tapKey(this, 'C')" onpointerup="releaseKey(this)" onpointercancel="releaseKey(this)">C</button>
+    <button class="btn-num" onpointerdown="tapKey(this, '0')" onpointerup="releaseKey(this)" onpointercancel="releaseKey(this)">0</button>
+    <button class="btn-num btn-action-del" onpointerdown="tapKey(this, 'DEL')" onpointerup="releaseKey(this)" onpointercancel="releaseKey(this)">⌫</button>
+  </div>
 
-    <script src="script.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
