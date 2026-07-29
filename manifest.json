@@ -1,0 +1,16 @@
+{
+  "name": "Máy Tính Siêu Tốc",
+  "short_name": "MT Siêu Tốc",
+  "description": "Ứng dụng tính giá tem và HSD nhanh chóng",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f5f9",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/color/48/calculate.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
