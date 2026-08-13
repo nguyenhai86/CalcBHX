@@ -1,135 +1,197 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Máy Tính Siêu Tốc</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <!-- Nút cài đặt góc trái (Chỉ hiện ở Tab Giá Tem) -->
-    <button id="settings-btn" class="settings-btn">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>BHXCALC</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="/8cd8f924-0e9f-4742-a7be-1e00c0710176.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <!-- NÚT MENU TÍCH HỢP (Góc trái) -->
+    <div id="fab-menu-container" class="fab-container">
+      <!-- Nút bấm chính -->
+      <button id="main-fab-btn" class="fab-btn">
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
         </svg>
-    </button>
+        <!-- Chấm báo trạng thái Sáng Màn Hình -->
+        <span id="wake-lock-indicator" class="status-dot status-red"></span>
+      </button>
+
+      <!-- Danh sách chức năng thả xuống -->
+      <div id="fab-dropdown" class="fab-dropdown hidden">
+        <button class="fab-menu-item" id="menu-add-discount">⚙️ Thêm mức giảm (%)</button>
+        <button class="fab-menu-item" id="menu-toggle-scroll">🔓 Khóa cuộn trang: TẮT</button>
+      </div>
+    </div>
 
     <div class="app-container">
-        
-        <!-- THANH CHUYỂN TAB -->
-        <div class="tabs-container">
-            <button class="tab-btn active" data-target="tab-gia">GIÁ TEM</button>
-            <button class="tab-btn" data-target="tab-hsd">TÍNH HSD</button>
+      <!-- LOGO BÁCH HÓA XANH -->
+      <div class="logo-container">
+        <img src="./Icno-Bach-Hoa-Xanh-Tra-H.png" alt="Bách Hóa Xanh" class="bhx-logo" />
+      </div>
+
+      <!-- THANH CHUYỂN TAB -->
+      <div class="tabs-container">
+        <button class="tab-btn active" data-target="tab-gia">GIÁ TEM</button>
+        <button class="tab-btn" data-target="tab-hsd">TÍNH HSD</button>
+        <button class="tab-btn" data-target="tab-qr">QUÉT MÃ</button>
+      </div>
+
+      <!-- ================= TAB 1: TÍNH GIÁ TEM ================= -->
+      <div id="tab-gia" class="tab-content active">
+        <div class="result-card">
+          <div class="card-title">GIÁ GHI TEM</div>
+          <div class="main-price" id="gia-ghi-tem">0</div>
+          <div class="details-box">
+            <div class="detail-row">
+              <span>Giá gốc:</span>
+              <span id="gia-goc">0 đ</span>
+            </div>
+            <div class="detail-row">
+              <span>Chưa làm tròn:</span>
+              <span id="chua-lam-tron" class="pink-text">0 đ</span>
+            </div>
+          </div>
         </div>
 
-        <!-- ================= TAB 1: TÍNH GIÁ TEM ================= -->
-        <div id="tab-gia" class="tab-content active">
-            <!-- Thẻ hiển thị kết quả Giá -->
-            <div class="result-card">
-                <div class="card-title">GIÁ GHI TEM</div>
-                <div class="main-price" id="gia-ghi-tem">0</div>
-                <div class="details-box">
-                    <div class="detail-row">
-                        <span>Giá gốc:</span>
-                        <span id="gia-goc">0 đ</span>
-                    </div>
-                    <div class="detail-row">
-                        <span>Chưa làm tròn:</span>
-                        <span id="chua-lam-tron" class="pink-text">0 đ</span>
-                    </div>
-                </div>
-            </div>
+        <div class="discount-container" id="button-container"></div>
 
-            <!-- Vùng chứa các nút giảm giá -->
-            <div class="discount-container" id="button-container"></div>
+        <div class="keypad">
+          <button class="key" data-key="1">1</button>
+          <button class="key" data-key="2">2</button>
+          <button class="key" data-key="3">3</button>
 
-            <!-- Bàn phím số -->
-            <div class="keypad">
-                <button class="key" data-key="1">1</button>
-                <button class="key" data-key="2">2</button>
-                <button class="key" data-key="3">3</button>
-                
-                <button class="key" data-key="4">4</button>
-                <button class="key" data-key="5">5</button>
-                <button class="key" data-key="6">6</button>
-                
-                <button class="key" data-key="7">7</button>
-                <button class="key" data-key="8">8</button>
-                <button class="key" data-key="9">9</button>
-                
-                <button class="key btn-clear" data-key="C">C</button>
-                <button class="key" data-key="0">0</button>
-                <button class="key btn-back" data-key="BACK">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22 3H9C8.3 3 7.7 3.4 7.4 4L1 12L7.4 20C7.7 20.6 8.3 21 9 21H22C23.1 21 24 20.1 24 19V5C24 3.9 23.1 3 22 3ZM18.3 16.3L16.9 17.7L13.6 14.4L10.3 17.7L8.9 16.3L12.2 13L8.9 9.7L10.3 8.3L13.6 11.6L16.9 8.3L18.3 9.7L15 13L18.3 16.3Z"/>
-                    </svg>
-                </button>
+          <button class="key" data-key="4">4</button>
+          <button class="key" data-key="5">5</button>
+          <button class="key" data-key="6">6</button>
+
+          <button class="key" data-key="7">7</button>
+          <button class="key" data-key="8">8</button>
+          <button class="key" data-key="9">9</button>
+
+          <button class="key btn-clear" data-key="C">C</button>
+          <button class="key" data-key="0">0</button>
+          <button class="key btn-back" data-key="BACK">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="white"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M22 3H9C8.3 3 7.7 3.4 7.4 4L1 12L7.4 20C7.7 20.6 8.3 21 9 21H22C23.1 21 24 20.1 24 19V5C24 3.9 23.1 3 22 3ZM18.3 16.3L16.9 17.7L13.6 14.4L10.3 17.7L8.9 16.3L12.2 13L8.9 9.7L10.3 8.3L13.6 11.6L16.9 8.3L18.3 9.7L15 13L18.3 16.3Z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= TAB 2: TÍNH NGÀY SỬ DỤNG ================= -->
+      <div id="tab-hsd" class="tab-content">
+        <div class="result-card">
+          <div class="card-title">NGÀY HẾT HẠN</div>
+          <div class="main-price hsd-color" id="ket-qua-hsd">--/--/----</div>
+          <div class="details-box">
+            <div class="detail-row">
+              <span>Ngày SX:</span>
+              <span id="hsd-nsx-lbl">...</span>
             </div>
+            <div class="detail-row">
+              <span>Thời hạn:</span>
+              <span id="hsd-thoihan-lbl">...</span>
+            </div>
+          </div>
         </div>
 
+        <div class="hsd-form">
+          <div class="form-group">
+            <label>Ngày sản xuất:</label>
+            <input type="date" id="nsx-input" class="hsd-input" />
+          </div>
 
-        <!-- ================= TAB 2: TÍNH NGÀY SỬ DỤNG ================= -->
-        <div id="tab-hsd" class="tab-content">
-            <div class="result-card">
-                <div class="card-title">NGÀY HẾT HẠN</div>
-                <div class="main-price hsd-color" id="ket-qua-hsd">--/--/----</div>
-                <div class="details-box">
-                    <div class="detail-row">
-                        <span>Ngày SX:</span>
-                        <span id="hsd-nsx-lbl">...</span>
-                    </div>
-                    <div class="detail-row">
-                        <span>Thời hạn:</span>
-                        <span id="hsd-thoihan-lbl">...</span>
-                    </div>
-                </div>
-            </div>
+          <div class="form-group">
+            <label>Số ngày HSD:</label>
+            <input
+              type="number"
+              id="songay-input"
+              placeholder="Ví dụ: 30"
+              class="hsd-input"
+              min="1" />
+          </div>
 
-            <div class="hsd-form">
-                <div class="form-group">
-                    <label>Ngày sản xuất:</label>
-                    <input type="date" id="nsx-input" class="hsd-input">
-                </div>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="tinh-ngay-sx" checked />
+              <span
+                >Tính luôn ngày sản xuất <br /><span class="note"
+                  >(Ngày SX là ngày thứ 1)</span
+                ></span
+              >
+            </label>
 
-                <div class="form-group">
-                    <label>Số ngày HSD:</label>
-                    <input type="number" id="songay-input" placeholder="Ví dụ: 30" class="hsd-input" min="1">
-                </div>
+            <label class="checkbox-label">
+              <input type="checkbox" id="lich-thuc-te" checked />
+              <span
+                >Tính lịch thực tế (Có 31, 29) <br /><span class="note"
+                  >(Bỏ tích: Mọi tháng đều tính là 30 ngày)</span
+                ></span
+              >
+            </label>
+          </div>
+        </div>
+      </div>
 
-                <div class="checkbox-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="tinh-ngay-sx" checked>
-                        <span>Tính luôn ngày sản xuất <br><span class="note">(Ngày SX là ngày thứ 1)</span></span>
-                    </label>
-
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="lich-thuc-te" checked>
-                        <span>Tính lịch thực tế (Có 31, 29) <br><span class="note">(Bỏ tích: Mọi tháng đều tính là 30 ngày)</span></span>
-                    </label>
-                </div>
-            </div>
+      <!-- ================= TAB 3: QUÉT MÃ QR & BARCODE ================= -->
+      <div id="tab-qr" class="tab-content">
+        <div class="result-card">
+          <div class="card-title">MÁY QUÉT MÃ VẠCH & QR</div>
+          <div
+            id="qr-reader"
+            style="width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 15px"></div>
+          <button id="btn-scan" class="action-btn">BẬT CAMERA QUÉT</button>
+          <div class="qr-result-box">
+            <span style="font-size: 13px; color: #8c8c93">Kết quả quét mới nhất:</span>
+            <div id="qr-result-text" class="qr-text">Chưa quét mã nào</div>
+          </div>
         </div>
 
-        <!-- Trạng thái giữ sáng màn hình góc phải -->
-        <div class="status-footer">
-            <span id="wake-lock-status" class="wake-lock-dot status-red"></span>
+        <div class="qr-history">
+          <div class="history-header">
+            <h4>Lịch sử đã quét</h4>
+            <button id="btn-clear-qr" class="btn-clear-history">Xóa danh sách</button>
+          </div>
+          <ul id="qr-history-list" class="history-list"></ul>
         </div>
+      </div>
     </div>
 
-    <!-- Modal Nhập mức giảm giá tạm thời -->
+    <!-- Modal Thêm Khuyến Mãi -->
     <div id="settings-modal" class="modal hidden">
-        <div class="modal-content">
-            <h3>Thêm mức giảm</h3>
-            <input type="number" id="new-discount-input" placeholder="Nhập số % (VD: 15)">
-            <div class="modal-actions">
-                <button id="btn-cancel-modal" class="btn-cancel">Hủy</button>
-                <button id="btn-add-modal" class="btn-add">Thêm</button>
-            </div>
+      <div class="modal-content">
+        <h3>Thêm mức giảm</h3>
+        <input type="number" id="new-discount-input" placeholder="Nhập số % (VD: 15)" />
+        <div class="modal-actions">
+          <button id="btn-cancel-modal" class="btn-cancel">Hủy</button>
+          <button id="btn-add-modal" class="btn-add">Thêm</button>
         </div>
+      </div>
     </div>
 
+    <!-- Thư viện HTML5-QRCode -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
