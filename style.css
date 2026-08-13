@@ -47,7 +47,7 @@ body {
   padding: 10px 0; /* Độ cao của dải nền */
   border-radius: 12px; /* Bo góc đồng bộ với ứng dụng */
   margin-bottom: 5px;
-  box-shadow: 0 4px 10px rgba(0, 139, 75, 0.2); /* Đổ bóng nhẹ cho dải nền */
+  box-shadow: 0 4px 10px rgba(0, 139, 75, 0.2);
 }
 .bhx-logo {
   height: 35px; /* Giữ nguyên kích thước nhỏ gọn */
@@ -447,6 +447,12 @@ body.no-scroll .logo-container {
 }
 
 /* --- TAB QR & BARCODE --- */
+/* CSS Tăng độ tương phản cho video camera để làm rõ mã mờ, nhạt */
+#qr-reader video {
+  filter: contrast(150%) brightness(105%);
+  -webkit-filter: contrast(150%) brightness(105%);
+}
+
 .action-btn {
   width: 100%;
   padding: 14px;

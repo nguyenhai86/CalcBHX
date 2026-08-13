@@ -5,9 +5,12 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>BHXCALC</title>
+    <title>Máy Tính Siêu Tốc</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" href="/8cd8f924-0e9f-4742-a7be-1e00c0710176.ico" type="image/x-icon" />
+    <link
+      rel="shortcut icon"
+      href="./8cd8f924-0e9f-4742-a7be-1e00c0710176.ico"
+      type="image/x-icon" />
   </head>
   <body>
     <!-- NÚT MENU TÍCH HỢP (Góc trái) -->
@@ -161,7 +164,15 @@
           <div
             id="qr-reader"
             style="width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 15px"></div>
+
           <button id="btn-scan" class="action-btn">BẬT CAMERA QUÉT</button>
+          <button
+            id="btn-flash"
+            class="action-btn"
+            style="display: none; background: #ff9800; margin-top: 5px">
+            ⚡ BẬT ĐÈN FLASH
+          </button>
+
           <div class="qr-result-box">
             <span style="font-size: 13px; color: #8c8c93">Kết quả quét mới nhất:</span>
             <div id="qr-result-text" class="qr-text">Chưa quét mã nào</div>

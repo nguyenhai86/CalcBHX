@@ -288,8 +288,11 @@ let lastScannedTime = 0;
 
 const qrResultText = document.getElementById('qr-result-text');
 const btnScan = document.getElementById('btn-scan');
+const btnFlash = document.getElementById('btn-flash');
 const qrHistoryList = document.getElementById('qr-history-list');
 const btnClearQr = document.getElementById('btn-clear-qr');
+
+let isFlashOn = false;
 
 function renderQrHistory() {
   qrHistoryList.innerHTML = '';
@@ -365,32 +368,32 @@ function startScan() {
   if (isScanning) return;
 
   if (!html5QrCode) {
-    html5QrCode = new Html5Qrcode('qr-reader');
+    html5QrCode = new Html5Qrcode('qr-reader', {
+      experimentalFeatures: {
+        useBarCodeDetectorIfSupported: true
+      }
+    });
   }
 
   btnScan.textContent = 'Đang mở camera...';
   btnScan.disabled = true;
 
+  // BÍ QUYẾT TĂNG TỐC ĐỘ: Chỉ quét mã QR và mã vạch sản phẩm thông dụng
+  const formatsToSupport = [
+    Html5QrcodeSupportedFormats.QR_CODE,
+    Html5QrcodeSupportedFormats.EAN_13,
+    Html5QrcodeSupportedFormats.CODE_128
+  ];
+
   html5QrCode
     .start(
+      { facingMode: 'environment' },
       {
-        // Ưu tiên camera sau một cách an toàn cho iOS
-        facingMode: 'environment',
-        // Yêu cầu độ phân giải HD (Safari xử lý mức này mượt nhất mà không bị méo ảnh)
-        width: { ideal: 1280 },
-        height: { ideal: 720 }
-      },
-      {
-        // 25 fps là mức "chân ái" cho iPhone: Đủ nhanh để quét nhạy, không làm nóng máy
-        fps: 25,
-
-        // Mở rộng vùng quét vạch ngang, rất quan trọng vì iOS không cho web kiểm soát ống kính Macro
+        fps: 30,
         qrbox: (videoWidth, videoHeight) => {
-          return { width: videoWidth * 0.9, height: 250 };
+          return { width: videoWidth * 0.95, height: 250 };
         },
-
-        // Buộc trình duyệt duy trì tỷ lệ khung hình chuẩn
-        aspectRatio: 1.333334,
+        formatsToSupport: formatsToSupport,
         disableFlip: false
       },
       onScanSuccess,
@@ -401,23 +404,22 @@ function startScan() {
       btnScan.textContent = 'TẮT CAMERA';
       btnScan.disabled = false;
       btnScan.classList.add('scanning');
+
+      // Hiện nút bật Flash nếu thiết bị hỗ trợ
+      try {
+        const capabilities = html5QrCode.getRunningTrackCapabilities();
+        if (capabilities.torch) {
+          btnFlash.style.display = 'block';
+        }
+      } catch (e) {}
     })
     .catch((err) => {
-      // Fallback: Nếu iOS vẫn từ chối độ phân giải, thử mở lại với cấu hình mặc định thấp nhất
-      console.warn('Fallback camera iOS: ', err);
-      html5QrCode
-        .start({ facingMode: 'environment' }, { fps: 20, qrbox: 250 }, onScanSuccess, () => {})
-        .then(() => {
-          isScanning = true;
-          btnScan.textContent = 'TẮT CAMERA';
-          btnScan.disabled = false;
-          btnScan.classList.add('scanning');
-        })
-        .catch((e) => {
-          alert('Không thể mở camera. Vui lòng kiểm tra quyền truy cập!');
-          btnScan.textContent = 'BẬT CAMERA QUÉT';
-          btnScan.disabled = false;
-        });
+      console.error('Lỗi camera:', err);
+      alert(
+        'Không thể mở camera! Vui lòng kiểm tra quyền truy cập hoặc đảm bảo bạn đang dùng HTTPS.'
+      );
+      btnScan.textContent = 'BẬT CAMERA QUÉT';
+      btnScan.disabled = false;
     });
 }
 
@@ -427,6 +429,14 @@ function stopScan() {
       .stop()
       .then(() => {
         isScanning = false;
+
+        // Reset nút Flash
+        isFlashOn = false;
+        if (btnFlash) {
+          btnFlash.style.display = 'none';
+          btnFlash.textContent = '⚡ BẬT ĐÈN FLASH';
+        }
+
         btnScan.textContent = 'BẬT CAMERA QUÉT';
         btnScan.classList.remove('scanning');
       })
@@ -438,6 +448,19 @@ if (btnScan) {
   btnScan.onclick = () => {
     if (isScanning) stopScan();
     else startScan();
+  };
+}
+
+if (btnFlash) {
+  btnFlash.onclick = () => {
+    isFlashOn = !isFlashOn;
+    html5QrCode
+      .applyVideoConstraints({
+        advanced: [{ torch: isFlashOn }]
+      })
+      .then(() => {
+        btnFlash.textContent = isFlashOn ? '⚡ TẮT ĐÈN FLASH' : '⚡ BẬT ĐÈN FLASH';
+      });
   };
 }
 
